@@ -7,6 +7,21 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+    this.route('search');
+
+    this.route('card', function () {
+        this.route('detail', { path: '/:id' });
+    });
+
+    this.route('deck', function () {
+        this.route('detail', { path: '/:id' });
+        this.route('edit', { path: '/:id/edit' });
+        this.route('create');
+    });
+
+    this.route('login');
+    this.route('logout');
+    this.route('register');
 });
 
 export default Router;

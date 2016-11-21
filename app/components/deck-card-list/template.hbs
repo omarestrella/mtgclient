@@ -1,0 +1,16 @@
+<ul class="list-unstyled">
+    {{#each collection as |detail|}}
+        <li>
+            {{#if edit}}
+                <span class="edit-controls">
+                    <i class="ion-plus clickable" {{action "addCard" detail.card detail.count}}></i>
+                    <i class="ion-minus clickable" {{action "removeCard" detail.card detail.count}}></i>
+                </span>
+            {{/if}}
+
+            {{deck-card-detail card=detail.card count=detail.count}}
+        </li>
+    {{else}}
+        None
+    {{/each}}
+</ul>

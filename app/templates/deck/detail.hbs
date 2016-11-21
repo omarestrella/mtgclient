@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-sm-9">
+        <h2>
+            {{title}}
+            <small>{{size}} cards</small>
+        </h2>
+    </div>
+
+    <div class="col-sm-3">
+        {{#if canEdit}}
+            {{#link-to "deck.edit" id classNames="btn btn-default"}}
+                Edit
+            {{/link-to}}
+
+            <a href="#" class="btn btn-danger" {{action deleteDeck}}>
+                Delete
+            </a>
+        {{/if}}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="card-group">
+            <strong>Creatures ({{collection-count creatures}})</strong>
+
+            {{deck-card-list collection=creatures}}
+        </div>
+
+        <div class="card-group">
+            <strong>Enchantments ({{collection-count enchantments}})</strong>
+
+            {{deck-card-list collection=enchantments}}
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card-group">
+            <strong>Instants ({{collection-count instants}})</strong>
+
+            {{deck-card-list collection=instants}}
+        </div>
+
+        <div class="card-group">
+            <strong>Sorceries ({{collection-count sorceries}})</strong>
+
+            {{deck-card-list collection=sorceries}}
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card-group">
+            <strong>Lands ({{collection-count lands}})</strong>
+
+            {{deck-card-list collection=lands}}
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+
+    </div>
+</div>

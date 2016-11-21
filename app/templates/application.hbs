@@ -1,0 +1,39 @@
+<div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">mtgapp</a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                {{#if session.isAuthenticated}}
+                    <li>
+                        {{#link-to "deck"}}Decks{{/link-to}}
+                    </li>
+                    <li>
+                        {{#link-to "search"}}Search{{/link-to}}
+                    </li>
+                {{else}}
+                    <li>
+                        {{#link-to "login"}}Login{{/link-to}}
+                    </li>
+                    <li>
+                        {{#link-to "register"}}Register{{/link-to}}
+                    </li>
+                {{/if}}
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {{#if session.isAuthenticated}}
+                    <li>
+                        {{#link-to "logout"}}Logout{{/link-to}}
+                    </li>
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    {{outlet}}
+</div>
