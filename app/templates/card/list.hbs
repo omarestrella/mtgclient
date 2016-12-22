@@ -4,7 +4,7 @@
     </div>
 
     <div class="col-sm-4 col-xs-4">
-        <button class="btn btn-default" {{action toggleFilters}}>
+        <button class="btn btn-default" {{action "toggleFilters"}}>
             Filters
         </button>
     </div>
@@ -26,8 +26,8 @@
 
 <div class="card-list">
     {{#each card in content}}
-    <a href="#" {{action selectCard card}} {{bind-attr id=card.id}}>
-        <h4>{{unbound card.name}}</h4>
-    </a>
+        <a href="#" {{action "selectCard" card}} id={{card.id}}>
+            <h4>{{unbound card.name}}</h4>
+        </a>
     {{/each}}
 </div>

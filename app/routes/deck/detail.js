@@ -1,12 +1,22 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-    beforeModel: function () {
-        var controller = this.controllerFor('deck');
-        controller.set('editMode', false);
+const {
+    Route
+} = Ember;
+
+export default Route.extend({
+    actions: {
+        willTransition(transition) {
+            debugger;
+        }
     },
 
-    model: function (params) {
-        return this.store.findRecord('deck', params.id, { include: 'cards' });
+    beforeModel() {
+        const controller = this.controllerFor('deck');
+        controller.set('editing', false);
+    },
+
+    model(params) {
+        return this.store.findRecord('deck', params.id);
     }
 });

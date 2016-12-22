@@ -1,14 +1,14 @@
 <ul class="list-unstyled">
-    {{#each collection as |detail|}}
+    {{#each collection as |deck|}}
         <li>
             {{#if edit}}
                 <span class="edit-controls">
-                    <i class="ion-plus clickable" {{action "addCard" detail.card detail.count}}></i>
-                    <i class="ion-minus clickable" {{action "removeCard" detail.card detail.count}}></i>
+                    <i class="ion-plus clickable" {{action "addCard" deck.card deck.count}}></i>
+                    <i class="ion-minus clickable" {{action "removeCard" deck.card deck.count}}></i>
                 </span>
             {{/if}}
 
-            {{deck-card-detail card=detail.card count=detail.count}}
+            {{deck-card-detail card=deck.card count=deck.count}}
         </li>
     {{else}}
         None

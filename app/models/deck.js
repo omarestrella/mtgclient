@@ -12,20 +12,20 @@ export default DS.Model.extend({
     title: DS.attr(),
     private: DS.attr(),
     editGroup: DS.attr(),
-    cards: DS.hasMany('card'),
+    cards: DS.hasMany('deck-card'),
 
     path: function () {
         return '/decks/' + this.get('id') + '/';
     }.property('id'),
 
     size: function () {
-        var counts = this.get('cards').mapProperty('count');
+        var counts = this.get('cards').mapBy('count');
 
         if (!counts || counts.length === 0) {
             return 0;
         }
 
-        return _.reduce(counts, function (sum, num) {
+        return counts.reduce(function (sum, num) {
             return sum + num;
         });
     }.property('cards.[]'),
@@ -48,7 +48,7 @@ export default DS.Model.extend({
 
     lands: function () {
         return this.filterCardsOnType('Land');
-    }.property('lands.[]'),
+    }.property('cards.[]'),
 
     canEdit: function () {
         var user = this.get('session.user.id');
@@ -56,9 +56,12 @@ export default DS.Model.extend({
     }.property('session.user'),
 
     filterCardsOnType: function (type) {
-        var cards = this.get('cards');
-        var filtered = cards.filter(function (detail) {
-            return detail.card.types.include(type);
+        const cards = this.get('cards').map(card => card);
+
+
+        const filtered = cards.filter(card => {
+            const types = card.get('types') || [];
+            return types.includes(type);
         });
 
         return filtered.sort(function (data) {

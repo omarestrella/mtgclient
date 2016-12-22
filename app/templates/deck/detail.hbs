@@ -1,18 +1,18 @@
 <div class="row">
     <div class="col-sm-9">
         <h2>
-            {{title}}
-            <small>{{size}} cards</small>
+            {{deck.title}}
+            <small>{{deck.size}} cards</small>
         </h2>
     </div>
 
     <div class="col-sm-3">
         {{#if canEdit}}
-            {{#link-to "deck.edit" id classNames="btn btn-default"}}
+            {{#link-to "deck.edit" deck.id classNames="btn btn-default"}}
                 Edit
             {{/link-to}}
 
-            <a href="#" class="btn btn-danger" {{action deleteDeck}}>
+            <a href="#" class="btn btn-danger" {{action "deleteDeck"}}>
                 Delete
             </a>
         {{/if}}
@@ -22,37 +22,37 @@
 <div class="row">
     <div class="col-sm-3">
         <div class="card-group">
-            <strong>Creatures ({{collection-count creatures}})</strong>
+            <strong>Creatures ({{collection-count deck.creatures}})</strong>
 
-            {{deck-card-list collection=creatures}}
+            {{deck-card-list collection=deck.creatures}}
         </div>
 
         <div class="card-group">
-            <strong>Enchantments ({{collection-count enchantments}})</strong>
+            <strong>Enchantments ({{collection-count deck.enchantments}})</strong>
 
-            {{deck-card-list collection=enchantments}}
-        </div>
-    </div>
-
-    <div class="col-sm-3">
-        <div class="card-group">
-            <strong>Instants ({{collection-count instants}})</strong>
-
-            {{deck-card-list collection=instants}}
-        </div>
-
-        <div class="card-group">
-            <strong>Sorceries ({{collection-count sorceries}})</strong>
-
-            {{deck-card-list collection=sorceries}}
+            {{deck-card-list collection=deck.enchantments}}
         </div>
     </div>
 
     <div class="col-sm-3">
         <div class="card-group">
-            <strong>Lands ({{collection-count lands}})</strong>
+            <strong>Instants ({{collection-count deck.instants}})</strong>
 
-            {{deck-card-list collection=lands}}
+            {{deck-card-list collection=deck.instants}}
+        </div>
+
+        <div class="card-group">
+            <strong>Sorceries ({{collection-count deck.sorceries}})</strong>
+
+            {{deck-card-list collection=deck.sorceries}}
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card-group">
+            <strong>Lands ({{collection-count deck.lands}})</strong>
+
+            {{deck-card-list collection=deck.lands}}
         </div>
     </div>
 

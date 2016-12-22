@@ -6,6 +6,6 @@ const {
 
 export default Route.extend({
     model() {
-        return this.get('store').findAll('deck', { include: 'cards' });
+        return this.get('store').findAll('deck');
     }
 });
