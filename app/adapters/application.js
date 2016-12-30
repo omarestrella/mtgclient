@@ -14,5 +14,9 @@ export default DS.RESTAdapter.extend({
     buildURL() {
         const url = this._super(...arguments);
         return `${url}/`;
+    },
+
+    pathForType(type) {
+        return Ember.String.pluralize(type);
     }
 });

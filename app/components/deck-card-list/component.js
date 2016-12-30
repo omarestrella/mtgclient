@@ -16,40 +16,18 @@ export default Component.extend({
     collection: null,
 
     actions: {
-        addCard: function (card, count) {
-            var data = [
-                {
-                    card: card.id,
-                    count: count + 1
-                }
-            ];
-
-            this.saveCardData(data);
+        addCard(card) {
+            card.incrementProperty('count');
+            card.save().catch(() => {
+                card.rollbackAttributes();
+            });
         },
 
-        removeCard: function (card, count) {
-            var data = [
-                {
-                    card: card.id,
-                    count: count - 1
-                }
-            ];
-
-            this.saveCardData(data);
+        removeCard(card) {
+            card.decrementProperty('count');
+            card.save().catch(() => {
+                card.rollbackAttributes();
+            });
         }
-    },
-
-    saveCardData: function (data) {
-        var deck = this.get('deck');
-        var path = deck.get('path');
-
-        var postData = {
-            data
-        };
-
-        this.get('ajax').post(`${path}update_cards/`, postData);
-        // .then(function () {
-        //     MTG.socket('deck').emit('deck_update', deck.get('id'));
-        // });
     }
 });

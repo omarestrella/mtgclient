@@ -8,16 +8,6 @@
 
     <div class="col-sm-3">
         {{#if canEdit}}
-            {{#if editing}}
-                {{#link-to "deck.detail" deck.id classNames="btn btn-primary"}}
-                    Save
-                {{/link-to}}
-            {{else}}
-                {{#link-to "deck.edit" deck.id classNames="btn btn-default"}}
-                    Edit
-                {{/link-to}}
-            {{/if}}
-
             <a href="#" class="btn btn-danger" {{action "deleteDeck"}}>
                 Delete
             </a>
@@ -31,14 +21,14 @@
             <strong>Creatures ({{collection-count deck.creatures}})</strong>
 
             {{deck-card-list collection=deck.creatures
-                editing=editing}}
+                editing=canEdit}}
         </div>
 
         <div class="card-group">
             <strong>Enchantments ({{collection-count deck.enchantments}})</strong>
 
             {{deck-card-list collection=deck.enchantments
-                editing=editing}}
+                editing=canEdit}}
         </div>
     </div>
 
@@ -47,14 +37,14 @@
             <strong>Instants ({{collection-count deck.instants}})</strong>
 
             {{deck-card-list collection=deck.instants
-                editing=editing}}
+                editing=canEdit}}
         </div>
 
         <div class="card-group">
             <strong>Sorceries ({{collection-count deck.sorceries}})</strong>
 
             {{deck-card-list collection=deck.sorceries
-                editing=editing}}
+                editing=canEdit}}
         </div>
     </div>
 
@@ -62,7 +52,8 @@
         <div class="card-group">
             <strong>Lands ({{collection-count deck.lands}})</strong>
 
-            {{deck-card-list collection=deck.lands}}
+            {{deck-card-list collection=deck.lands
+                editing=canEdit}}
         </div>
     </div>
 
