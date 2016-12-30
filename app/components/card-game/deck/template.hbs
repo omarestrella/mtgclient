@@ -1,0 +1,8 @@
+<h1>Deck {{deck.length}}</h1>
+<button {{action drawCard}}>
+    Draw Card
+</button>
+
+{{#each deck as |card|}}
+    {{card.name}} <br>
+{{/each}}

@@ -2,7 +2,8 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 const {
-    inject
+    inject,
+    computed
 } = Ember;
 
 export default DS.Model.extend({
@@ -14,9 +15,9 @@ export default DS.Model.extend({
     editGroup: DS.attr(),
     cards: DS.hasMany('deck-card'),
 
-    path: function () {
+    path: computed('id', function () {
         return '/decks/' + this.get('id') + '/';
-    }.property('id'),
+    }),
 
     size: function () {
         var counts = this.get('cards').mapBy('count');
@@ -28,7 +29,7 @@ export default DS.Model.extend({
         return counts.reduce(function (sum, num) {
             return sum + num;
         });
-    }.property('cards.[]'),
+    }.property('cards.@each.count'),
 
     creatures: function () {
         return this.filterCardsOnType('Creature');

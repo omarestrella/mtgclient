@@ -17,6 +17,7 @@ Router.map(function() {
         this.route('detail', { path: '/:id' }, function () {
             this.route('deck.edit', { path: '/edit', resetNamespace: true });
         });
+        this.route('test', { path: '/:id/test', resetNamespace: false });
         this.route('create');
     });
 

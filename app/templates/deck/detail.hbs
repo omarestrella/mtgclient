@@ -8,6 +8,10 @@
 
     <div class="col-sm-3">
         {{#if canEdit}}
+            {{#link-to "deck.test" deck.id classNames="btn btn-default"}}
+                Test
+            {{/link-to}}
+
             <a href="#" class="btn btn-danger" {{action "deleteDeck"}}>
                 Delete
             </a>
