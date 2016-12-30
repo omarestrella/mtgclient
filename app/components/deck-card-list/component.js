@@ -10,7 +10,7 @@ export default Component.extend({
 
     ajax: inject.service(),
 
-    edit: false,
+    editing: false,
 
     deck: null,
     collection: null,

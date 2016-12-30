@@ -6,7 +6,7 @@ const {
     computed
 } = Ember;
 
-export default DS.JSONAPIAdapter.extend({
+export default DS.RESTAdapter.extend({
     session: inject.service(),
 
     host: computed.reads('session.host'),

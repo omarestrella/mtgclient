@@ -1,0 +1,19 @@
+.drop-element {
+    &.drop-open {
+        z-index: 1000;
+    }
+
+    &.drop-theme-arrows {
+        .drop-content {
+            padding: 6px;
+            background: #fff;
+        }
+
+        &.drop-element-attached-left {
+            .drop-content:before {
+                border-width: 10px;
+                border-right-color: #fff !important;
+            }
+        }
+    }
+}

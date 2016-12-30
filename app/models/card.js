@@ -1,6 +1,10 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+const {
+    computed
+} = Ember;
+
 export default DS.Model.extend({
     name: DS.attr(),
     text: DS.attr(),
@@ -13,14 +17,13 @@ export default DS.Model.extend({
     multiverseId: DS.attr(),
     setNumber: DS.attr(),
 
-    colors: DS.hasMany('card-color'),
-    sets: DS.hasMany('card-set'),
-    types: DS.hasMany('card-type'),
-    subtypes: DS.hasMany('card-subtype'),
+    colors: DS.attr(),
+    sets: DS.attr(),
+    types: DS.attr(),
+    subtypes: DS.attr(),
 
-    shortSet: Ember.computed('sets.@each.name', function () {
-        const set = this.get('sets.lastObject');
-        const code = set.get('code');
+    shortSet: computed('sets.[]', function () {
+        const { code } = this.get('sets.lastObject');
         if (code) {
             return code.toLowerCase();
         }
@@ -28,13 +31,13 @@ export default DS.Model.extend({
         return '';
     }),
 
-    mtgImage: Ember.computed('shortSet', function () {
+    mtgImage: computed('shortSet', function () {
         const setName = this.get('shortSet');
         const setNumber = this.get('setNumber');
         return `http://magiccards.info/scans/en/${setName}/${setNumber}.jpg`;
     }),
 
-    gathererImage: Ember.computed('multiverseId', function () {
+    gathererImage: computed('multiverseId', function () {
         const mid = this.get('multiverseId');
         return `http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${mid}&type=card`;
     })

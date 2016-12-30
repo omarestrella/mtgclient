@@ -7,4 +7,4 @@ export default Ember.Helper.extend({
         text = text.replace(/(\r\n|\n|\r)/gm, '<br />');
         return new Ember.Handlebars.SafeString(text);
     }
-})
+});

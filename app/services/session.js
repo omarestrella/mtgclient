@@ -14,7 +14,7 @@ function setAjaxPreflight (data) {
             withCredentials: true
         };
 
-        xhr.setRequestHeader('Authorization', 'Token %@'.fmt(data.token));
+        xhr.setRequestHeader('Authorization', `Token ${data.token}`);
 
         if (!csrfSafeMethod(options.type)) {
             xhr.setRequestHeader('X-CSRFToken', csrftoken);
@@ -31,15 +31,7 @@ export default Service.extend({
     user: null,
     token: null,
 
-    host: computed(function () {
-        if (window.location.hostname === 'localhost') {
-            return 'http://localhost:9000';
-        }
-
-        return 'http://gatheringapi.herokuapp.com';
-    }),
-
-    init: function () {
+    init() {
         this._super(...arguments);
 
         Ember.$.ajaxPrefilter(function(options /*, originalOptions, xhr*/) {
@@ -49,15 +41,23 @@ export default Service.extend({
         });
     },
 
-    tokenCookie: function () {
+    host: computed(function () {
+        if (window.location.hostname === 'localhost') {
+            return 'http://localhost:9000';
+        }
+
+        return 'http://gatheringapi.herokuapp.com';
+    }),
+
+    tokenCookie: computed(function () {
         return Ember.$.cookie('token');
-    }.property(),
+    }).volatile(),
 
-    isAuthenticated: function () {
-        return this.get('token') !== null && this.get('tokenCookie');
-    }.property('token'),
+    isAuthenticated: computed('token', function () {
+        return !!this.get('token') && !!this.get('tokenCookie');
+    }),
 
-    authenticateWithToken: function () {
+    authenticateWithToken() {
         var self = this;
         var token = Ember.$.cookie('token');
 
@@ -84,7 +84,7 @@ export default Service.extend({
         });
     },
 
-    authenticateWithCredentials: function (username, password) {
+    authenticateWithCredentials(username, password) {
         var self = this;
 
         return new Ember.RSVP.Promise(function (resolve, reject) {
@@ -112,32 +112,21 @@ export default Service.extend({
         });
     },
 
-    handleAuthentication: function (data) {
+    handleAuthentication(data) {
         this.set('token', data.token);
         this.set('user', data.user);
         setAjaxPreflight(data);
     },
 
-    logout: function () {
-        var self = this;
+    logout() {
+        const path = `${this.get('host')}/auth/logout`;
+        return this.get('ajax').post(path, {}).then(() => {
+            Ember.$.removeCookie('token');
 
-        return new Ember.RSVP.Promise(function (resolve, reject) {
-            var path = `${this.get('host')}/auth/logout`;
-            Ember.$.post(path, {}).then(
-                function () {
-                    Ember.$.removeCookie('token');
-
-                    self.set('token', null);
-                    self.set('user', null);
-
-                    resolve();
-                },
-
-                function () {
-                    Ember.Logger.error('Logout error');
-                    reject();
-                }
-            );
+            this.set('token', null);
+            this.set('user', null);
+        }).catch(function () {
+            Ember.Logger.error('Logout error');
         });
     }
 });

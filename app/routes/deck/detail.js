@@ -7,7 +7,11 @@ const {
 export default Route.extend({
     actions: {
         willTransition(transition) {
-            debugger;
+            if (transition.targetName === 'deck.edit') {
+                this.controller.set('editing', true);
+            } else {
+                this.controller.set('editing', false);
+            }
         }
     },
 

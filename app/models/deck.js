@@ -32,23 +32,23 @@ export default DS.Model.extend({
 
     creatures: function () {
         return this.filterCardsOnType('Creature');
-    }.property('cards.[]'),
+    }.property('cards.@each.type'),
 
     instants: function () {
         return this.filterCardsOnType('Instant');
-    }.property('cards.[]'),
+    }.property('cards.@each.type'),
 
     sorceries: function () {
         return this.filterCardsOnType('Sorcery');
-    }.property('cards.[]'),
+    }.property('cards.@each.type'),
 
     enchantments: function () {
         return this.filterCardsOnType('Enchantment');
-    }.property('cards.[]'),
+    }.property('cards.@each.type'),
 
     lands: function () {
         return this.filterCardsOnType('Land');
-    }.property('cards.[]'),
+    }.property('cards.@each.type'),
 
     canEdit: function () {
         var user = this.get('session.user.id');
@@ -58,9 +58,8 @@ export default DS.Model.extend({
     filterCardsOnType: function (type) {
         const cards = this.get('cards').map(card => card);
 
-
         const filtered = cards.filter(card => {
-            const types = card.get('types') || [];
+            const types = card.get('type') || [];
             return types.includes(type);
         });
 

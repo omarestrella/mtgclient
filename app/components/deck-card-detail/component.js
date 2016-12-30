@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 const {
+    run,
     inject,
+    computed,
     Component
 } = Ember;
 
@@ -14,35 +16,46 @@ export default Component.extend({
     card: null,
     count: 0,
 
-    imageUrl: null,
+    drop: null,
+    imageUrl: computed.reads('card.mtgImage'),
 
-    attachHoverPreview: function () {
-        var self = this;
-        var card = this.get('card');
+    didInsertElement() {
+        run.scheduleOnce('afterRender', this, this.attachDrop);
+    },
 
-        this.$().hover(
-            function () {
-                this.get('store').find('card', card.id)
-                    .then(function (c) {
-                        if(c.get('set_name')) {
-                            self.set('imageUrl', c.get('mtgImage'));
+    mouseEnter() {
+        const drop = this.get('drop');
+        if (drop) {
+            drop.open();
+        }
+    },
 
-                            return null;
-                        }
+    mouseLeave() {
+        const drop = this.get('drop');
+        if (drop) {
+            drop.close();
+        }
+    },
 
-                        return c.reload().then(function (c) {
-                            self.set('imageUrl', c.get('mtgImage'));
-                        });
-                    });
-            },
-
-            function () {
-                self.set('imageUrl', null);
+    attachDrop() {
+        const css = this.get('componentCssClassName');
+        const drop = new window.Drop({
+            target: this.$()[0],
+            content: this.$('.card-data')[0],
+            classes: `${css} drop-theme-arrows`,
+            position: 'top right',
+            tetherOptions: {
+                attachment: 'top left',
+                offset: '18px 0',
+                constraints: [
+                    {
+                        to: 'window',
+                        attachment: 'together'
+                    }
+                ]
             }
-        );
-    }.on('didInsertElement'),
+        });
 
-    removeListeners: function () {
-        this.$().off('hover');
-    }.on('willDestroyElement')
+        this.set('drop', drop);
+    }
 });
