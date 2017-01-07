@@ -21,6 +21,10 @@ Router.map(function() {
         this.route('create');
     });
 
+    this.route('game', { path: '/games' }, function () {
+
+    });
+
     this.route('login');
     this.route('logout');
     this.route('register');

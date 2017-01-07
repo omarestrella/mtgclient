@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
-function setAjaxPreflight (data) {
+function setAjaxPreflight(data) {
     Ember.$.cookie('token', data.token);
+
     var csrftoken = Ember.$.cookie('csrftoken');
 
     function csrfSafeMethod(method) {
@@ -43,7 +44,7 @@ export default Service.extend({
 
     host: computed(function () {
         if (window.location.hostname === 'localhost') {
-            return 'http://localhost:9000';
+            return 'http://localhost:8000';
         }
 
         return 'http://gatheringapi.herokuapp.com';
@@ -115,6 +116,7 @@ export default Service.extend({
     handleAuthentication(data) {
         this.set('token', data.token);
         this.set('user', data.user);
+        this.set('session', data.session);
         setAjaxPreflight(data);
     },
 

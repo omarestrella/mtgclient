@@ -1,0 +1,9 @@
+{{#draggable-object-target action="addCard" classNames="field"}}
+    <h1>Field</h1>
+
+    {{#each cards as |card|}}
+        <div class="card">
+            <img src={{card.model.card.mtgImage}}>
+        </div>
+    {{/each}}
+{{/draggable-object-target}}

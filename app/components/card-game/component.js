@@ -18,6 +18,7 @@ function shuffle(a) {
 const GameCard = Ember.Object.extend({
     guid: null,
     card: null,
+    model: null,
 
     name: computed.reads('card.name'),
 
@@ -50,6 +51,7 @@ export default Component.extend({
                 const data = copy(card.get('data'));
                 for (let i = count; i; i--) {
                     const gameCard = GameCard.create({
+                        model: deckCard,
                         card: data
                     });
                     collect.push(gameCard);
