@@ -1,6 +1,12 @@
 <h1>Hand {{hand.length}}</h1>
 {{#each hand as |card|}}
-    {{#draggable-object content=card classNames="card" dragEndAction="removeCard"}}
-        <img src={{card.model.card.mtgImage}}>
-    {{/draggable-object}}
+    {{#if me}}
+        {{#draggable-object content=card classNames="card" dragEndAction="removeCard"}}
+            <img src={{card.model.card.mtgImage}}>
+        {{/draggable-object}}
+    {{else}}
+        <div class="card">
+            <img src="http://i.imgur.com/kudVqtL.jpg">
+        </div>
+    {{/if}}
 {{/each}}

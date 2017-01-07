@@ -1,64 +1,36 @@
 import Ember from 'ember';
 
 const {
-    copy,
-    computed,
-    generateGuid,
+    run,
     Component
 } = Ember;
-
-function shuffle(a) {
-    for (let i = a.length; i; i--) {
-        let j = Math.floor(Math.random() * i);
-        [a[i - 1], a[j]] = [a[j], a[i - 1]];
-    }
-    return a;
-}
-
-const GameCard = Ember.Object.extend({
-    guid: null,
-    card: null,
-    model: null,
-
-    name: computed.reads('card.name'),
-
-    init() {
-        this._super(...arguments);
-
-        const guid = generateGuid(this, 'card');
-        this.set('guid', guid);
-    }
-});
 
 export default Component.extend({
     classNames: ['card-game'],
 
+    game: null,
+
     actions: {
-        drawCard() {
-            const card = this.get('gameDeck').popObject();
-            this.get('gameHand').pushObject(card);
+        drawCard(deck, hand) {
+            this.get('manager').drawCard(deck, hand);
         }
     },
 
-    gameHand: computed(() => []),
+    didInsertElement() {
+        this._super(...arguments);
+        run.scheduleOnce('afterRender', this, this.setupGame);
+    },
 
-    gameDeck: computed('deck.cards.[]', function () {
-        const cards = this.get('deck.cards')
-            .map(deckCard => {
-                const card = deckCard.get('card');
-                const count = deckCard.get('count');
-                const collect = [];
-                const data = copy(card.get('data'));
-                for (let i = count; i; i--) {
-                    const gameCard = GameCard.create({
-                        model: deckCard,
-                        card: data
-                    });
-                    collect.push(gameCard);
-                }
-                return collect;
-            })
-            .reduce((a, b) => a.concat(b));
-        return shuffle(cards);
-    })
+    setupGame() {
+        this.get('game').startNewGame().then(manager => {
+            this.set('manager', manager);
+
+            this.set('currentDeck', manager.get('currentDeck'));
+            this.set('opponentDeck', manager.get('opponentDeck'))
+
+            this.set('currentHand', manager.get('currentHand'));
+            this.set('opponentHand', manager.get('opponentHand'));
+        });
+
+    }
 });

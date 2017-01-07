@@ -1,6 +1,6 @@
 {{#each games as |game|}}
-    <div class="game">
-        Me: {{game.me}}
-        Other: {{game.other}}
-    </div>
+    {{#link-to "game.detail" game.id classNames="game"}}
+        Me: {{game.me.username}}<br>
+        Opponent: {{game.opponent.username}}
+    {{/link-to}}
 {{/each}}

@@ -1,4 +1,11 @@
+<div class="opponent">
+    {{card-game/hand hand=opponentHand}}
+    {{card-game/deck deck=opponentDeck drawCard=(action "drawCard")}}
+</div>
+
 {{card-game/field}}
 
-{{card-game/hand deck=gameDeck hand=gameHand}}
-{{card-game/deck deck=gameDeck drawCard=(action "drawCard")}}
+<div class="me">
+    {{card-game/hand deck=currentDeck hand=currentHand me=true}}
+    {{card-game/deck deck=currentDeck drawCard=(action "drawCard" currentDeck currentHand) me=true}}
+</div>
